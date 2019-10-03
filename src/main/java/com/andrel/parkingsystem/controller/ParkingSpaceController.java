@@ -59,4 +59,15 @@ public class ParkingSpaceController {
     public void deleteById(@PathVariable("id") Long id) {
         this.parkingSpaceService.deleteById(id);
     }
+
+    @PutMapping("remove/{id}")
+    public void removeById(@PathVariable("id") Long id) {
+        this.parkingSpaceService.removeById(id);
+    }
+
+    @PutMapping("busy-space/{id}")
+    @ResponseBody
+    public Optional<ParkingSpace> busySpace(@PathVariable("id") Long id) {
+        return this.parkingSpaceService.busySpaceById(id);
+    }
 }

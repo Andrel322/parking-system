@@ -51,6 +51,10 @@ public class UsedSpace {
         this.createdAt = LocalDateTime.now();
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public ParkingSpace getParkingSpace() {
         return parkingSpace;
     }

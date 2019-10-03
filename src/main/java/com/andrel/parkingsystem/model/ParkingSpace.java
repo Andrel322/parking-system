@@ -37,6 +37,10 @@ public class ParkingSpace {
         this.createdAt = LocalDateTime.now();
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public Boolean getBusy() {
         return busy;
     }

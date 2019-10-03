@@ -15,10 +15,12 @@ import java.util.stream.Collectors;
 public class ParkingSpaceService implements IParkingSpaceService {
 
     private ParkingSpaceRepository parkingSpaceRepository;
+    private UsedSpaceService usedSpaceService;
 
     @Autowired
-    public ParkingSpaceService(ParkingSpaceRepository parkingSpaceRepository) {
+    public ParkingSpaceService(ParkingSpaceRepository parkingSpaceRepository, UsedSpaceService usedSpaceService) {
         this.parkingSpaceRepository = parkingSpaceRepository;
+        this.usedSpaceService = usedSpaceService;
     }
 
     @Override
@@ -57,6 +59,14 @@ public class ParkingSpaceService implements IParkingSpaceService {
     }
 
     @Override
+    public void removeById(Long id) {
+        this.parkingSpaceRepository.findById(id).map(record -> {
+            record.setDeletedAt(LocalDateTime.now());
+            return this.parkingSpaceRepository.save(record);
+        });
+    }
+
+    @Override
     public Integer countAllByBusyFalse() {
         return this.parkingSpaceRepository.findAllByBusyFalse().size();
     }
@@ -64,5 +74,16 @@ public class ParkingSpaceService implements IParkingSpaceService {
     @Override
     public List<String> findAllPositionsByBusyFalse() {
         return this.parkingSpaceRepository.findAllByBusyFalse().stream().map(ParkingSpace::getPosition).collect(Collectors.toList());
+    }
+
+    public Optional<ParkingSpace> busySpaceById(Long id) {
+        Optional<ParkingSpace> parkingSpace = this.parkingSpaceRepository.findById(id).map(record -> {
+            record.setBusy(true);
+            return this.parkingSpaceRepository.save(record);
+        });
+
+        parkingSpace.ifPresent(space -> this.usedSpaceService.createByParkingSpace(space));
+
+        return parkingSpace;
     }
 }

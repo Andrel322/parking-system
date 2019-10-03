@@ -19,7 +19,11 @@ public interface IParkingSpaceService {
 
     void deleteById(Long id);
 
+    void removeById(Long id);
+
     Integer countAllByBusyFalse();
 
     List<String> findAllPositionsByBusyFalse();
+
+    Optional<ParkingSpace> busySpaceById(Long id);
 }
