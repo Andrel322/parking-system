@@ -1,6 +1,6 @@
 # Parking-System
 
-A evaluation Project to Conpay
+A study project
 
 Utilizado Java 8, SpringBoot 2.1.8 (Spring Web, Spring Data JPA, Spring Boot DevTools, Postgresql Drive), Maven 4.0, Postgresql 11
 
